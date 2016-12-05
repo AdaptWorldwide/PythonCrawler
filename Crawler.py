@@ -36,10 +36,10 @@ def requestPage(url):
         return r.url, r.text
     except reqExc.InvalidURL:
         with open('ErrorLog.txt','a',encoding='utf-8') as ErrorLog:
-            ErrorLog.write('"{}","{}"'.format(url,'Invalid URL'))
+            ErrorLog.write('"{}","{}"\n'.format(url,'Invalid URL'))
     except reqExc.TooManyRedirects:
         with open('ErrorLog.txt','a',encoding='utf-8') as ErrorLog:
-            ErrorLog.write('"{}","{}"'.format(url,'Too Many Redirects'))
+            ErrorLog.write('"{}","{}"\n'.format(url,'Too Many Redirects'))
     except:
         pass
 
