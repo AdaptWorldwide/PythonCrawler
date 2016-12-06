@@ -76,6 +76,7 @@ def extract_base_url(url):
     path = url[:url.rfind('/') + 1] if '/' in parts.path else url
     return base_url,path
 
+#process anchors and resolves relative links
 def process_anchors(soup,base_url,path):
     for anchor in soup.find_all("a"):
         link = anchor.attrs["href"] if "href" in anchor.attrs else ''
