@@ -9,17 +9,17 @@ from PopularAgents import DesktopAgents
 from random import choice
 
 #listMode
-list_urls = [line.rstrip('\n') for line in open(r'urls.txt')]
+#list_urls = [line.rstrip('\n') for line in open(r'urls.txt')]
 
 # a queue of URLS to be crawled
-new_urls = deque(['http://fx-today.com/'])
+new_urls = deque(['http://fx-today.com'])
 
 #list of URLs already crawled
 processed_urls = set()
 
 #globalRegex1
 #used to keep crawler on the domain in question
-pattern = re.compile(".*http:\/\/fx-today.com.*")
+pattern = re.compile(".*http:\/\/:fx-today\.com*")
 
 #globalRegex2
 #used to block of parts of the site you don't want
@@ -36,12 +36,13 @@ def requestPage(url):
         return r.url, r.text
     except reqExc.InvalidURL:
         with open('ErrorLog.txt','a',encoding='utf-8') as ErrorLog:
-            ErrorLog.write('"{}","{}"\n'.format(url,'Invalid URL'))
+            ErrorLog.write('"{}","{}"'.format(url,'Invalid URL'))
     except reqExc.TooManyRedirects:
         with open('ErrorLog.txt','a',encoding='utf-8') as ErrorLog:
-            ErrorLog.write('"{}","{}"\n'.format(url,'Too Many Redirects'))
+            ErrorLog.write('"{}","{}"'.format(url,'Too Many Redirects'))
     except:
-        pass
+        html = ''
+        return url, html
 
 def create_soup(html):
     try:
@@ -76,7 +77,6 @@ def extract_base_url(url):
     path = url[:url.rfind('/') + 1] if '/' in parts.path else url
     return base_url,path
 
-#process anchors and resolves relative links
 def process_anchors(soup,base_url,path):
     for anchor in soup.find_all("a"):
         link = anchor.attrs["href"] if "href" in anchor.attrs else ''
@@ -105,7 +105,7 @@ def list_mode():
         soup = create_soup(html)
         extract_elements(soup,url)
 
-#main()
+main()
 
 #list_mode()
 
